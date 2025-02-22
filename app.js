@@ -1,30 +1,28 @@
-const express = require('express');
-const logger = require('morgan');
+'use strict';
 
+const express = require('express');
 const app = express();
+
+// Use environment variable if declared or default to 3000
 const PORT = process.env.PORT || 3000;
 
+// Load routers
+const indexRouter = require('./routes/indexRouter');
+
+// Morgan logger
+const logger = require('morgan');
 // Use logger as middleware, with 3 different output templates
 app.use(logger('dev'));
 app.use(logger('common'));
 app.use(logger('combined'));
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
+// Express.static middleware to make the public folder globally accessible
+app.use(express.static("public"));
 
-// Define a simple route
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+// Use index router
+app.use(indexRouter);
 
-
-
-
-
-
-
-
-
+// Catch-all route for 404 errors
 app.all('*', (req, res) => {
     res.status(404).send('Not Found');
 });
