@@ -1,0 +1,17 @@
+{
+  "name": "A01-Node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ryan Burns (https://github.com/Ryan-M-Burns)",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.1",
+  "dependencies": {
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
+  }
+}
