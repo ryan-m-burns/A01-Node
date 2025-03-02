@@ -1,36 +1,43 @@
-const express = require("express");
-const morgan = require("morgan");
-const path = require("path");
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
 const {
-    createHtmlHeader,
-    createHtmlFooter,
-    createErrorHtml,
-} = require("./utils/htmlTemplates");
-const about = require("./data/about");
+  createHtmlHeader,
+  createHtmlFooter,
+  createErrorHtml,
+} = require('./utils/htmlTemplates');
+const about = require('./data/about');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// tell Express where to find our templates (views)
+app.set('views', path.join(__dirname, 'views'));
+
+// set the view engine to pug
+app.set('view engine', 'pug');
 // Middleware
-app.use(morgan("dev"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Custom logging middleware
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`);
-    next();
+  console.log(`${req.method} ${req.path}`);
+  next();
 });
 
-// Routes
-app.get("/", (req, res) => {
-    if (req.query.format === "json") {
-        return res.json({ message: "Welcome to My Node.js Portfolio!" });
-    }
+app.set('view engine', 'pug');
 
-    const html = `
-        ${createHtmlHeader("Home")}
+// Routes
+app.get('/', (req, res) => {
+  if (req.query.format === 'json') {
+    return res.json({ message: 'Welcome to My Node.js Portfolio!' });
+  }
+
+  const html = `
+        ${createHtmlHeader('Home')}
         <h1>Welcome to My Node.js Portfolio</h1>
         <p>Welcome to my portfolio website where you can find information about my projects and skills.</p>
         
@@ -57,21 +64,25 @@ app.get("/", (req, res) => {
         ${createHtmlFooter()}
     `;
 
-    res.send(html);
+  res.send(html);
 });
 
-app.get("/about", (req, res) => {
-    if (req.query.format === "json") {
-        return res.json(about);
-    }
+app.get('/site', (req, res) => {
+  res.render('site');
+});
 
-    const html = `
-        ${createHtmlHeader("About Me")}
+app.get('/about', (req, res) => {
+  if (req.query.format === 'json') {
+    return res.json(about);
+  }
+
+  const html = `
+        ${createHtmlHeader('About Me')}
         <div class="about-container">
             <div class="about-header">
                 <img src="${about.headshot}" alt="${
-        about.name
-    }" class="headshot">
+    about.name
+  }" class="headshot">
                 <div class="about-intro">
                     <h1>About Me</h1>
                     <h2>${about.title}</h2>
@@ -82,16 +93,16 @@ app.get("/about", (req, res) => {
         ${createHtmlFooter()}
     `;
 
-    res.send(html);
+  res.send(html);
 });
 
 // Project routes
-app.use("/projects", require("./routes/projects"));
+app.use('/projects', require('./routes/projects'));
 
 // Contact routes
-app.get("/contact", (req, res) => {
-    const html = `
-        ${createHtmlHeader("Contact Me")}
+app.get('/contact', (req, res) => {
+  const html = `
+        ${createHtmlHeader('Contact Me')}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <div class="contact-container">
             <h1>Contact Me</h1>
@@ -133,46 +144,45 @@ app.get("/contact", (req, res) => {
         ${createHtmlFooter()}
     `;
 
-    res.send(html);
+  res.send(html);
 });
 
-app.post("/contact", (req, res) => {
-    console.log("Contact Form Submission:", req.body);
-    const html = `
-        ${createHtmlHeader("Thank You")}
+app.post('/contact', (req, res) => {
+  console.log('Contact Form Submission:', req.body);
+  const html = `
+        ${createHtmlHeader('Thank You')}
         <h1>Thank you for reaching out!</h1>
         ${createHtmlFooter()}
     `;
-    res.send(html);
+  res.send(html);
 });
 
 // 404 Handler
 app.use((req, res) => {
-    if (req.query.format === "json") {
-        return res.status(404).json({ error: "Page not found" });
-    }
+  if (req.query.format === 'json') {
+    return res.status(404).json({ error: 'Page not found' });
+  }
 
-    res.status(404).send(
-        createErrorHtml("Not Found", "The requested page does not exist.")
-    );
+  res
+    .status(404)
+    .send(createErrorHtml('Not Found', 'The requested page does not exist.'));
 });
 
 // Error Handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+  console.error(err.stack);
 
-    if (req.query.format === "json") {
-        return res.status(500).json({ error: "Internal server error" });
-    }
+  if (req.query.format === 'json') {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 
-    res.status(500).send(
-        createErrorHtml(
-            "Error",
-            "Something went wrong. Please try again later."
-        )
+  res
+    .status(500)
+    .send(
+      createErrorHtml('Error', 'Something went wrong. Please try again later.')
     );
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
