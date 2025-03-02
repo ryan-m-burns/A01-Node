@@ -1,0 +1,42 @@
+extends ../layouts/main
+
+block content
+  h1= title
+  if searchQuery
+    a(href="/projects") &larr; Back to Projects
+
+  div.search-container
+    form#searchForm(onsubmit="handleSearch(event)")
+      input.search-bar(
+        type="text", 
+        placeholder="Search Projects", 
+        value=searchQuery || "",
+        id="searchInput",
+        name="query"
+      )
+      button(type="submit") Search
+
+  div#project-list
+    each project in projects
+      div.project-card(onclick=`window.location.href='/projects/${project.id}'`)
+        h2= project.title
+        p= project.summary
+        ul
+          each tech in project.tech
+            li= tech
+        div.image-container
+          img(src=project.screenshot, alt=`${project.title} Screenshot`)
+        a.view-details(href=`/projects/${project.id}`, onclick="event.stopPropagation()") View Details
+
+block scripts
+  script.
+    function handleSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value.trim();
+      
+      if (query !== '') {
+        window.location.href = '/projects/search?query=' + encodeURIComponent(query);
+      } else if (window.location.pathname === '/projects/search') {
+        window.location.href = '/projects';
+      }
+    }
