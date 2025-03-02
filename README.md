@@ -1,6 +1,6 @@
 # Node.js Portfolio
 
-A simple and modern portfolio website built with Node.js and Express.
+A simple and modern portfolio website built with Node.js, Express, and Pug templates.
 
 ## Features
 
@@ -9,6 +9,7 @@ A simple and modern portfolio website built with Node.js and Express.
 - Contact form
 - JSON API endpoints for all routes
 - Static file serving for CSS and images
+- Modular architecture with separated routes and middleware
 
 ## Setup
 
@@ -19,10 +20,32 @@ npm install
 
 2. Start the server:
 ```bash
-node app.js
+npm start
 ```
 
-3. Visit [http://localhost:3000](http://localhost:3000) in your browser
+3. For development with auto-restart:
+```bash
+npm run dev
+```
+
+4. Visit [http://localhost:3000](http://localhost:3000) in your browser
+
+## Project Structure
+
+```
+├── config/             # Application configuration
+├── data/               # Data models and mock data
+├── middleware/         # Express middleware
+├── public/             # Static assets (CSS, images)
+├── routes/             # Route handlers
+├── utils/              # Utility functions
+├── views/              # Pug templates
+│   ├── layouts/        # Layout templates
+│   ├── partials/       # Reusable template parts
+│   └── projects/       # Project-specific templates
+├── app.js              # Application entry point
+└── package.json        # Project metadata and dependencies
+```
 
 ## API Endpoints
 
@@ -40,5 +63,6 @@ Add `?format=json` to any GET endpoint to receive a JSON response.
 
 - Node.js
 - Express
+- Pug (template engine)
 - Morgan (logging)
 - Static file serving

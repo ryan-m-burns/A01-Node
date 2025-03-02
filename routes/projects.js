@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     res.render("projects/index", {
         title: "My Projects",
         projects,
-        searchQuery: ""
+        searchQuery: "",
     });
 });
 
@@ -33,7 +33,7 @@ router.get("/search", (req, res) => {
     res.render("projects/index", {
         title: `Search Results for "${query}"`,
         projects: results,
-        searchQuery: query
+        searchQuery: query,
     });
 });
 
@@ -42,12 +42,10 @@ router.get("/:id", (req, res) => {
     const project = projects.find((p) => p.id === parseInt(req.params.id));
 
     if (!project) {
-        return res
-            .status(404)
-            .render("error", {
-                title: "Project Not Found",
-                message: "The requested project does not exist."
-            });
+        return res.status(404).render("error", {
+            title: "Project Not Found",
+            message: "The requested project does not exist.",
+        });
     }
 
     if (req.query.format === "json") {
@@ -56,7 +54,7 @@ router.get("/:id", (req, res) => {
 
     res.render("projects/detail", {
         title: project.title,
-        project
+        project,
     });
 });
 
