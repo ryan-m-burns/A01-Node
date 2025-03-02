@@ -1,11 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const {
-  createHtmlHeader,
-  createHtmlFooter,
-  createErrorHtml,
-} = require('./utils/htmlTemplates');
 const about = require('./data/about');
 
 const app = express();
@@ -28,43 +23,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set('view engine', 'pug');
-
 // Routes
 app.get('/', (req, res) => {
   if (req.query.format === 'json') {
     return res.json({ message: 'Welcome to My Node.js Portfolio!' });
   }
 
-  const html = `
-        ${createHtmlHeader('Home')}
-        <h1>Welcome to My Node.js Portfolio</h1>
-        <p>Welcome to my portfolio website where you can find information about my projects and skills.</p>
-        
-        <div class="nav-cards">
-            <a href="/about" class="nav-card">
-                <div class="nav-card-content">
-                    <h2>About Me</h2>
-                    <p>Learn more about my background, skills, and experience in web development.</p>
-                </div>
-            </a>
-            <a href="/projects" class="nav-card">
-                <div class="nav-card-content">
-                    <h2>Projects</h2>
-                    <p>Explore my portfolio of web development projects and applications.</p>
-                </div>
-            </a>
-            <a href="/contact" class="nav-card">
-                <div class="nav-card-content">
-                    <h2>Contact</h2>
-                    <p>Get in touch with me to discuss opportunities or collaborations.</p>
-                </div>
-            </a>
-        </div>
-        ${createHtmlFooter()}
-    `;
-
-  res.send(html);
+  res.render('index', { title: 'Home' });
 });
 
 app.get('/site', (req, res) => {
@@ -76,24 +41,7 @@ app.get('/about', (req, res) => {
     return res.json(about);
   }
 
-  const html = `
-        ${createHtmlHeader('About Me')}
-        <div class="about-container">
-            <div class="about-header">
-                <img src="${about.headshot}" alt="${
-    about.name
-  }" class="headshot">
-                <div class="about-intro">
-                    <h1>About Me</h1>
-                    <h2>${about.title}</h2>
-                </div>
-            </div>
-            <p class="bio">${about.bio}</p>
-        </div>
-        ${createHtmlFooter()}
-    `;
-
-  res.send(html);
+  res.render('about', { title: 'About Me', about });
 });
 
 // Project routes
@@ -101,60 +49,12 @@ app.use('/projects', require('./routes/projects'));
 
 // Contact routes
 app.get('/contact', (req, res) => {
-  const html = `
-        ${createHtmlHeader('Contact Me')}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <div class="contact-container">
-            <h1>Contact Me</h1>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <a href="tel:778-628-8346">778-628-8346</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:ryan.m.burns123@gmail.com">ryan.m.burns123@gmail.com</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fab fa-linkedin"></i>
-                    <a href="https://linkedin.com/in/ryanburns604" target="_blank">linkedin.com/in/ryanburns604</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fab fa-github"></i>
-                    <a href="https://github.com/ryan-m-burns" target="_blank">github.com/ryan-m-burns</a>
-                </div>
-            </div>
-
-            <div class="contact-form-container">
-                <h2>Send me a message</h2>
-                <form class="contact-form" method="POST" action="/contact">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message:</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit">Send Message</button>
-                </form>
-            </div>
-        </div>
-        ${createHtmlFooter()}
-    `;
-
-  res.send(html);
+  res.render('contact', { title: 'Contact Me' });
 });
 
 app.post('/contact', (req, res) => {
   console.log('Contact Form Submission:', req.body);
-  const html = `
-        ${createHtmlHeader('Thank You')}
-        <h1>Thank you for reaching out!</h1>
-        ${createHtmlFooter()}
-    `;
-  res.send(html);
+  res.render('thank-you', { title: 'Thank You' });
 });
 
 // 404 Handler
@@ -163,9 +63,10 @@ app.use((req, res) => {
     return res.status(404).json({ error: 'Page not found' });
   }
 
-  res
-    .status(404)
-    .send(createErrorHtml('Not Found', 'The requested page does not exist.'));
+  res.status(404).render('error', {
+    title: 'Not Found',
+    message: 'The requested page does not exist.'
+  });
 });
 
 // Error Handler
@@ -176,11 +77,10 @@ app.use((err, req, res, next) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 
-  res
-    .status(500)
-    .send(
-      createErrorHtml('Error', 'Something went wrong. Please try again later.')
-    );
+  res.status(500).render('error', {
+    title: 'Error',
+    message: 'Something went wrong. Please try again later.'
+  });
 });
 
 app.listen(PORT, () => {
