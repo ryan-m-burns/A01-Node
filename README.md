@@ -38,7 +38,6 @@ npm run dev
 ├── middleware/         # Express middleware
 ├── public/             # Static assets (CSS, images)
 ├── routes/             # Route handlers
-├── utils/              # Utility functions
 ├── views/              # Pug templates
 │   ├── layouts/        # Layout templates
 │   ├── partials/       # Reusable template parts
