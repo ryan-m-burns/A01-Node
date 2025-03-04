@@ -14,6 +14,12 @@ const about = {
         "and development. Seeking a challenging and stimulating career in " +
         "the digital sphere to leverage past experience and a strong desire " +
         "to learn.",
+    contactInfo: {
+        email: "ryan.m.burns123@gmail.com",
+        phone: "778-628-8346",
+        linkedin: "https://www.linkedin.com/in/ryanburns604",
+        github: "https://github.com/ryan-m-burns",
+    },
 };
 
 module.exports = about;
