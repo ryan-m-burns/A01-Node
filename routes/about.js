@@ -1,13 +1,8 @@
 const express = require("express");
+const HomeController = require("../controllers/HomeController");
 const router = express.Router();
-const about = require("../data/about");
 
-router.get("/", (req, res) => {
-    if (req.query.format === "json") {
-        return res.json(about);
-    }
-
-    res.render("about", { title: "About Me", about });
-});
+// About route
+router.get("/", HomeController.About);
 
 module.exports = router;
