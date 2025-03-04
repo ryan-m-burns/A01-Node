@@ -1,6 +1,7 @@
 // Import dependencies
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 const config = require("./config/app");
 const { connectToDatabase } = require("./config/database");
 const allRoutes = require("./routes/all-routes");
@@ -28,7 +29,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Connect to MongoDB (async)
+// Connect to MongoDB using Mongoose
 (async () => {
     try {
         await connectToDatabase();
@@ -48,6 +49,16 @@ app.use(errorHandler);
 // Start server
 app.listen(config.port, () => {
     console.log(`Server is running on http://localhost:${config.port}`);
+});
+
+// Handle application shutdown gracefully
+process.on('SIGINT', async () => {
+    console.log('Application shutting down...');
+    // Close database connection
+    if (mongoose.connection.readyState === 1) {
+        await mongoose.connection.close();
+    }
+    process.exit(0);
 });
 
 module.exports = app; // Export for testing
