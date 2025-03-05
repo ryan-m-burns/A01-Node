@@ -5,21 +5,21 @@ class ProjectController {
     static async Index(req, res) {
         try {
             const projects = await ProjectOps.getAllProjects();
-            
+
             if (req.query.format === "json") {
                 return res.json(projects);
             }
-            
-            res.render("projects/index", { 
-                title: "Projects", 
+
+            res.render("projects/index", {
+                title: "Projects",
                 projects,
-                searchQuery: "" 
+                searchQuery: "",
             });
         } catch (error) {
             console.error("Error in Index method:", error);
             res.status(500).render("error", {
                 title: "Error",
-                message: "Failed to retrieve projects."
+                message: "Failed to retrieve projects.",
             });
         }
     }
@@ -28,27 +28,27 @@ class ProjectController {
     static async Detail(req, res) {
         try {
             const project = await ProjectOps.getProjectById(req.params.id);
-            
+
             if (!project) {
                 return res.status(404).render("error", {
                     title: "Project Not Found",
-                    message: "The requested project does not exist."
+                    message: "The requested project does not exist.",
                 });
             }
-            
+
             if (req.query.format === "json") {
                 return res.json(project);
             }
-            
-            res.render("projects/detail", { 
-                title: project.title, 
-                project 
+
+            res.render("projects/detail", {
+                title: project.title,
+                project,
             });
         } catch (error) {
             console.error("Error in Detail method:", error);
             res.status(500).render("error", {
                 title: "Error",
-                message: "Failed to retrieve project details."
+                message: "Failed to retrieve project details.",
             });
         }
     }
@@ -56,23 +56,21 @@ class ProjectController {
     // Search method to search for projects
     static async Search(req, res) {
         try {
-            const query = req.query.query?.toLowerCase() || "";
-            const allProjects = await ProjectOps.getAllProjects();
-            
-            const results = allProjects.filter(
-                (project) =>
-                    project.title.toLowerCase().includes(query) ||
-                    project.summary.toLowerCase().includes(query) ||
-                    (project.description && project.description.toLowerCase().includes(query))
-            );
-            
+            const query = req.query.query?.trim() || "";
+
+            if (query === "") {
+                return res.redirect("/projects");
+            }
+
+            const results = await ProjectOps.searchProjects(query);
+
             if (req.query.format === "json") {
                 return res.json({
                     searchTerm: query,
                     results,
                 });
             }
-            
+
             res.render("projects/index", {
                 title: `Search Results for "${query}"`,
                 projects: results,
@@ -82,7 +80,7 @@ class ProjectController {
             console.error("Error in Search method:", error);
             res.status(500).render("error", {
                 title: "Error",
-                message: "Failed to search projects."
+                message: "Failed to search projects.",
             });
         }
     }
