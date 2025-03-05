@@ -1,5 +1,4 @@
 const path = require("path");
-const { getMongoURI } = require("./database");
 
 module.exports = {
     port: process.env.PORT || 3000,
