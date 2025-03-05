@@ -6,7 +6,7 @@ block content
     a(href="/projects") &larr; Back to Projects
 
   div.search-container
-    form#searchForm(onsubmit="handleSearch(event)")
+    form(action="/projects/search", method="GET")
       input.search-bar(
         type="text", 
         placeholder="Search Projects", 
@@ -27,16 +27,3 @@ block content
         div.image-container
           img(src=project.screenshot, alt=`${project.title} Screenshot`)
         a.view-details(href=`/projects/${project.id}`, onclick="event.stopPropagation()") View Details
-
-block scripts
-  script.
-    function handleSearch(e) {
-      e.preventDefault();
-      const query = document.getElementById('searchInput').value.trim();
-      
-      if (query !== '') {
-        window.location.href = '/projects/search?query=' + encodeURIComponent(query);
-      } else if (window.location.pathname === '/projects/search') {
-        window.location.href = '/projects';
-      }
-    }

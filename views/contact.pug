@@ -10,16 +10,16 @@ block content
     div.contact-info
       div.contact-item
         i.fas.fa-phone
-        a(href="tel:778-628-8346") 778-628-8346
+        a(href=`tel:${profile.contactInfo.phone}`)= profile.contactInfo.phone
       div.contact-item
         i.fas.fa-envelope
-        a(href="mailto:ryan.m.burns123@gmail.com") ryan.m.burns123@gmail.com
+        a(href=`mailto:${profile.contactInfo.email}`)= profile.contactInfo.email
       div.contact-item
         i.fab.fa-linkedin
-        a(href="https://linkedin.com/in/ryanburns604", target="_blank") linkedin.com/in/ryanburns604
+        a(href=profile.contactInfo.linkedin, target="_blank")= profile.contactInfo.linkedin
       div.contact-item
         i.fab.fa-github
-        a(href="https://github.com/ryan-m-burns", target="_blank") github.com/ryan-m-burns
+        a(href=profile.contactInfo.github, target="_blank")= profile.contactInfo.github
 
     div.contact-form-container
       h2 Send me a message
