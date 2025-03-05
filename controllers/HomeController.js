@@ -5,18 +5,14 @@ class HomeController {
     static async Index(req, res) {
         try {
             console.log("Loading home page data...");
-            // Get the default profile (we can use the first one if there are multiple)
-            const profiles = await ProfileOps.getAllProfiles();
-            const profile = profiles.length > 0 ? profiles[0] : null;
 
             if (req.query.format === "json") {
                 return res.json({
-                    message: "Welcome to My Node.js Portfolio!",
-                    profile,
+                    message: "Welcome to My Node.js Portfolio!"
                 });
             }
 
-            res.render("index", { title: "Home", profile });
+            res.render("index", { title: "Home" });
         } catch (error) {
             console.error("Error in Index method:", error);
             res.status(500).render("error", {
@@ -31,8 +27,14 @@ class HomeController {
         try {
             console.log("Loading about page data...");
             // Get the default profile
-            const profiles = await ProfileOps.getAllProfiles();
-            const profile = profiles.length > 0 ? profiles[0] : null;
+            const profile = await ProfileOps.getDefaultProfile();
+
+            if (!profile) {
+                return res.status(404).render("error", {
+                    title: "Profile Not Found",
+                    message: "Profile information could not be found."
+                });
+            }
 
             if (req.query.format === "json") {
                 return res.json(profile);
@@ -53,13 +55,19 @@ class HomeController {
         try {
             console.log("Loading contact page data...");
             // Get the default profile
-            const profiles = await ProfileOps.getAllProfiles();
-            const profile = profiles.length > 0 ? profiles[0] : null;
+            const profile = await ProfileOps.getDefaultProfile();
+
+            if (!profile) {
+                return res.status(404).render("error", {
+                    title: "Profile Not Found",
+                    message: "Contact information could not be found."
+                });
+            }
 
             if (req.query.format === "json") {
                 return res.json({
                     message: "Contact Me",
-                    contactInfo: profile?.contactInfo,
+                    contactInfo: profile.contactInfo,
                 });
             }
 
@@ -77,11 +85,8 @@ class HomeController {
     static async SubmitContact(req, res) {
         try {
             console.log("Contact Form Submission:", req.body);
-            // Get the default profile for the thank you page
-            const profiles = await ProfileOps.getAllProfiles();
-            const profile = profiles.length > 0 ? profiles[0] : null;
-
-            res.render("thank-you", { title: "Thank You", profile });
+            
+            res.render("thank-you", { title: "Thank You" });
         } catch (error) {
             console.error("Error in SubmitContact method:", error);
             res.status(500).render("error", {
