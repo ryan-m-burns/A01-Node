@@ -9,16 +9,16 @@ router.get('/', ProjectController.Index);
 router.get('/search', ProjectController.Search);
 
 // Create new project
-router.get('/create', ProjectController.Create);
-router.post('/create', ProjectController.Create);
+router.get('/create', ProjectController.CreateGet);
+router.post('/create', ProjectController.CreatePost);
 
-// Update project
-router.get('/update/:id', ProjectController.Update);
-router.post('/update/:id', ProjectController.Update);
+// Edit project
+router.get('/:id/edit', ProjectController.EditGet);
+router.post('/:id/edit', ProjectController.EditPost);
 
 // Delete project
-router.get('/delete/:id', ProjectController.Delete);
-router.post('/delete/:id', ProjectController.Delete);
+router.get('/:id/delete', ProjectController.DeleteGet);
+router.post('/:id/delete', ProjectController.DeletePost);
 
 // Get project by ID (must be last to avoid conflicts with other routes)
 router.get('/:id', ProjectController.Detail);
