@@ -77,6 +77,94 @@ class ProjectController {
     }
   }
 
+  // GET method to display the delete form
+  static async DeleteGet(req, res) {
+    try {
+      const project = await ProjectOps.getProjectById(req.params.id);
+      
+      if (!project) {
+        return res.status(404).render('error', {
+          title: 'Project Not Found',
+          message: 'The requested project does not exist.',
+        });
+      }
+      
+      res.render('projects/delete', { 
+        title: 'Delete Project',
+        project
+      });
+    } catch (error) {
+      console.error('Error in DeleteGet method:', error);
+      res.status(500).render('error', {
+        title: 'Error',
+        message: 'Failed to retrieve project for deletion.',
+      });
+    }
+  }
+
+  // POST method to delete a project
+  static async DeletePost(req, res) {
+    try {
+      const project = await ProjectOps.deleteProject(req.params.id);
+
+      if (req.query.format === 'json') {
+        return res.json(project);
+      }
+
+      res.redirect('/projects');
+    } catch (error) {
+      console.error('Error in Delete method:', error);
+      res.status(500).render('error', {
+        title: 'Error',
+        message: 'Failed to delete project.',
+      });
+    }
+  }
+
+  // GET method to display the edit form
+  static async EditGet(req, res) {
+    try {
+      const project = await ProjectOps.getProjectById(req.params.id);
+      
+      if (!project) {
+        return res.status(404).render('error', {
+          title: 'Project Not Found',
+          message: 'The requested project does not exist.',
+        });
+      }
+      
+      res.render('projects/edit', { 
+        title: 'Edit Project',
+        project
+      });
+    } catch (error) {
+      console.error('Error in EditGet method:', error);
+      res.status(500).render('error', {
+        title: 'Error',
+        message: 'Failed to retrieve project for editing.',
+      });
+    }
+  }
+
+  // POST method to update a project
+  static async EditPost(req, res) {
+    try {
+      const project = await ProjectOps.updateProject(req.params.id, req.body);
+
+      if (req.query.format === 'json') {
+        return res.json(project);
+      }
+
+      res.redirect(`/projects/${req.params.id}`);
+    } catch (error) {
+      console.error('Error in EditPost method:', error);
+      res.status(500).render('error', {
+        title: 'Error',
+        message: 'Failed to update project.',
+      });
+    }
+  }
+
   // Search method to search for projects
   static async Search(req, res) {
     try {
