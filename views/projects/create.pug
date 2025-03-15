@@ -1,0 +1,21 @@
+extends ../layouts/main
+
+block content 
+  div.create-project-container
+    h1 Create New Project
+    form.create-project-form(method="post", action="/projects/create")
+      label
+        input(type="text" name="title" placeholder="Project Title" required)
+      label
+        input(type="text" name="tech" placeholder="Tech Stack" required)
+      label
+        input(type="text" name="description" placeholder="Project Description" required)
+      label
+        input(type="text" name="screenshot" placeholder="Screenshot URL" required)
+      button(type="submit") Create Project
+    
+    if errors
+      div.error
+        ul
+          each error in errors
+            li= error
