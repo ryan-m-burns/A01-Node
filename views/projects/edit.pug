@@ -1,0 +1,24 @@
+extends ../layouts/main
+
+block content 
+  div.edit-project-container
+    h1 Edit Project
+    form.edit-project-form(method="post", action=`/projects/${project.id}/edit`)
+      label
+        input(type="text" name="title" placeholder="Project Title" value=project.title required)
+      label
+        input(type="text" name="tech" placeholder="Tech Stack" value=project.tech required)
+      label
+        input(type="text" name="description" placeholder="Project Description" value=project.description required)
+      label
+        input(type="text" name="screenshot" placeholder="Screenshot URL" value=project.screenshot required)
+      button(type="submit") Update Project
+    
+    div.actions
+      a.cancel-btn(href=`/projects/${project.id}`) Cancel
+    
+    if errors
+      div.error
+        ul
+          each error in errors
+            li= error

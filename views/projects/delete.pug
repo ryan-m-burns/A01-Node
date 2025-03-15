@@ -1,0 +1,19 @@
+extends ../layouts/main
+
+block content
+  h1= title
+  div.delete-confirmation
+    h2 Are you sure you want to delete the following project?
+    
+    div.project-details
+      h3= project.title
+      p.summary= project.summary
+      
+      if project.screenshot
+        div.image-container
+          img(src=project.screenshot, alt=`${project.title} Screenshot`)
+    
+    div.actions
+      form(method="POST")
+        button.delete-btn(type="submit") Confirm Delete
+      a.cancel-btn(href=`/projects/${project.id}`) Cancel
