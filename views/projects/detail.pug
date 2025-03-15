@@ -15,3 +15,6 @@ block content
         h2 Description
         p= project.description
     a.back-link(href="/projects") &larr; Back to Projects
+    a.edit-link(href=`/projects/${project.id}/edit`, onclick="event.stopPropagation()") Edit Project
+    a.delete-link(href=`/projects/${project.id}/delete`, onclick="event.stopPropagation()") Delete Project
+  

@@ -27,3 +27,5 @@ block content
         div.image-container
           img(src=project.screenshot, alt=`${project.title} Screenshot`)
         a.view-details(href=`/projects/${project.id}`, onclick="event.stopPropagation()") View Details
+        a.edit-details(href=`/projects/${project.id}/edit`, onclick="event.stopPropagation()") Edit Details
+        a.delete-details(href=`/projects/${project.id}/delete`, onclick="event.stopPropagation()") Delete Details
