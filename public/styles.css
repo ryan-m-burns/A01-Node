@@ -138,6 +138,9 @@ footer {
   width: 100%;
 }
 
+button {
+  border: none;
+}
 /* Project List Styles */
 #project-list {
   margin-bottom: 100px; /* Space for footer */
@@ -216,6 +219,15 @@ footer {
   text-decoration: none;
   transition: background-color 0.2s;
   margin: 0.5rem;
+}
+
+.search-btn {
+  background: var(--btn-primary-bg);
+  color: var(--btn-color);
+}
+
+.search-btn:hover {
+  background: var(--btn-primary-bg-hover);
 }
 
 .view-btn {
@@ -297,23 +309,11 @@ textarea {
   font-size: 1rem;
 }
 
-button {
-  background-color: #0066cc;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
 /* Search bar */
-.search-bar {
+.search-container {
   margin-bottom: 2rem;
+}
+.search-container .search-bar {
   width: 100%;
   max-width: 600px;
 }
