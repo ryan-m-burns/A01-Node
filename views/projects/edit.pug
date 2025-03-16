@@ -17,7 +17,7 @@ block content
       label
         input(type="text" name="screenshot" placeholder="Screenshot URL" value=project.screenshot required)
       div.actions
-        button(type="submit") Update Project
+        button.update-btn.btn(type="submit") Update Project
         a.cancel-btn.btn(href=`/projects/${project.id}`) Cancel
     
     if errors

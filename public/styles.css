@@ -247,7 +247,14 @@ button {
 .edit-btn:hover {
   background: var(--btn-secondary-bg-hover);
 }
+.update-btn {
+  background: var(--btn-primary-bg);
+  color: var(--btn-color);
+}
 
+.update-btn:hover {
+  background: var(--btn-primary-bg-hover);
+}
 .delete-btn {
   background: var(--btn-danger-bg);
   color: var(--btn-danger-color);
