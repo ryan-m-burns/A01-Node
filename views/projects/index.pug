@@ -26,6 +26,6 @@ block content
             li= tech
         div.image-container
           img(src=project.screenshot, alt=`${project.title} Screenshot`)
-        button.view-details-btn(href=`/projects/${project.id}`, onclick="event.stopPropagation()") View Details
-        button.edit-details-btn(href=`/projects/${project.id}/edit`, onclick="event.stopPropagation()") Edit
-        button.delete-details-btn(href=`/projects/${project.id}/delete`, onclick="event.stopPropagation()") Delete
+        button.view-btn(href=`/projects/${project.id}`, onclick="event.stopPropagation()") View Details
+        button.edit-btn(href=`/projects/${project.id}/edit`, onclick="event.stopPropagation()") Edit
+        button.delete-btn(href=`/projects/${project.id}/delete`, onclick="event.stopPropagation()") Delete
