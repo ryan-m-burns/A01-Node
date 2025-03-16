@@ -6,6 +6,8 @@ block content
     form.edit-project-form(method="post", action=`/projects/${project.id}/edit`)
       label
         input(type="text" name="title" placeholder="Project Title" value=project.title required)
+      label
+        input(type="text" name="summary" placeholder="Project Summary" value=project.summary required)
       label Tech Stack
         each tech in project.tech
           div

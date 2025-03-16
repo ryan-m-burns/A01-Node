@@ -2,6 +2,9 @@ extends ../layouts/main
 
 block content
   h1= title
+
+  a.create-btn.btn(href="/projects/create") Add New Project
+
   if searchQuery
     a.back-btn.btn(href="/projects") &larr; Back to Projects
 

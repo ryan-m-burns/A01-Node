@@ -3,6 +3,7 @@ extends ../layouts/main
 block content
   div.project-detail-container
     h1= project.title
+    p.summary= project.summary
     div.project-detail-content
       div.project-detail-image
         img(src=project.screenshot, alt=`${project.title} Screenshot`)
