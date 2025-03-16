@@ -8,8 +8,9 @@ block content
         input(type="text" name="title" placeholder="Project Title" required)
       label
         input(type="text" name="summary" placeholder="Project Summary" required)
-      label
-        input(type="text" name="tech" placeholder="Tech Stack" required)
+      label Tech Stack
+      div.tech-stack
+        button(type='button' class='add-tech') +
       label
         input(type="text" name="description" placeholder="Project Description" required)
       label
@@ -21,3 +22,21 @@ block content
         ul
           each error in errors
             li= error
+
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      const addTechButton = document.querySelector('.add-tech');
+      const techStackDiv = document.querySelector('.tech-stack');
+
+      addTechButton.addEventListener('click', function() {
+        const newTechDiv = document.createElement('div');
+        newTechDiv.innerHTML = `<input type='text' name='tech' required /> <button type='button' class='remove-tech'>Remove</button>`;
+        techStackDiv.appendChild(newTechDiv);
+      });
+
+      techStackDiv.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-tech')) {
+          e.target.parentElement.remove();
+        }
+      });
+    });
