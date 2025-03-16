@@ -81,17 +81,17 @@ class ProjectController {
   static async DeleteGet(req, res) {
     try {
       const project = await ProjectOps.getProjectById(req.params.id);
-      
+
       if (!project) {
         return res.status(404).render('error', {
           title: 'Project Not Found',
           message: 'The requested project does not exist.',
         });
       }
-      
-      res.render('projects/delete', { 
+
+      res.render('projects/delete', {
         title: 'Delete Project',
-        project
+        project,
       });
     } catch (error) {
       console.error('Error in DeleteGet method:', error);
@@ -125,17 +125,17 @@ class ProjectController {
   static async EditGet(req, res) {
     try {
       const project = await ProjectOps.getProjectById(req.params.id);
-      
+
       if (!project) {
         return res.status(404).render('error', {
           title: 'Project Not Found',
           message: 'The requested project does not exist.',
         });
       }
-      
-      res.render('projects/edit', { 
+
+      res.render('projects/edit', {
         title: 'Edit Project',
-        project
+        project,
       });
     } catch (error) {
       console.error('Error in EditGet method:', error);
