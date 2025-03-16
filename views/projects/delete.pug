@@ -6,12 +6,22 @@ block content
     h2 Are you sure you want to delete the following project?
     
     div.project-details
-      h3= project.title
+      h1= project.title
       p.summary= project.summary
       
       if project.screenshot
         div.image-container
           img(src=project.screenshot, alt=`${project.title} Screenshot`)
+      
+      div.tech-stack
+        h2 Tech Stack
+        ul
+          each tech in project.tech
+            li= tech
+      
+      div.project-description
+        h2 Description
+        p= project.description
     
     div.actions
       form(method="POST")
