@@ -9,13 +9,14 @@ block content
       label
         input(type="text" name="summary" placeholder="Project Summary" required)
       label Tech Stack
+      button(type='button' class='add-tech') +
       div.tech-stack
-        button(type='button' class='add-tech') +
+
       label
         input(type="text" name="description" placeholder="Project Description" required)
       label
         input(type="text" name="screenshot" placeholder="Screenshot URL" required)
-      button(type="submit") Create Project
+      button.create-btn.btn(type="submit") Create Project
     
     if errors
       div.error
@@ -23,20 +24,5 @@ block content
           each error in errors
             li= error
 
-  script.
-    document.addEventListener('DOMContentLoaded', function() {
-      const addTechButton = document.querySelector('.add-tech');
-      const techStackDiv = document.querySelector('.tech-stack');
-
-      addTechButton.addEventListener('click', function() {
-        const newTechDiv = document.createElement('div');
-        newTechDiv.innerHTML = `<input type='text' name='tech' required /> <button type='button' class='remove-tech'>Remove</button>`;
-        techStackDiv.appendChild(newTechDiv);
-      });
-
-      techStackDiv.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-tech')) {
-          e.target.parentElement.remove();
-        }
-      });
-    });
+  script(src='/utils/projectHelpers.js')
+  

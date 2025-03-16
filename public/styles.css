@@ -229,6 +229,7 @@ button {
   background: var(--btn-success-bg);
   color: var(--btn-success-color);
   margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 .create-btn:hover {

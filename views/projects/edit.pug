@@ -9,11 +9,12 @@ block content
       label
         input(type="text" name="summary" placeholder="Project Summary" value=project.summary required)
       label Tech Stack
+      button(type='button' class='add-tech') +
+      div.tech-stack
         each tech in project.tech
           div
             input(type='text', name='tech', value=tech required)
-            button(type='button' class='remove-tech') Remove
-        button(type='button' class='add-tech') Add Technology
+            button(type='button' class='remove-tech') -
       label
         input(type="text" name="description" placeholder="Project Description" value=project.description required)
       label
@@ -27,3 +28,5 @@ block content
         ul
           each error in errors
             li= error
+
+  script(src="/utils/projectHelpers.js")
