@@ -12,10 +12,9 @@ block content
         input(type="text" name="description" placeholder="Project Description" value=project.description required)
       label
         input(type="text" name="screenshot" placeholder="Screenshot URL" value=project.screenshot required)
+      div.actions
       button(type="submit") Update Project
-    
-    div.actions
-      a.cancel-btn(href=`/projects/${project.id}`) Cancel
+        button.cancel-btn(href=`/projects/${project.id}`) Cancel
     
     if errors
       div.error
