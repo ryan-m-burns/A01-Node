@@ -3,7 +3,7 @@ extends ../layouts/main
 block content
   h1= title
   if searchQuery
-    a(href="/projects") &larr; Back to Projects
+    a.back-btn.btn(href="/projects") &larr; Back to Projects
 
   div.search-container
     form(action="/projects/search", method="GET")
@@ -14,7 +14,7 @@ block content
         id="searchInput",
         name="query"
       )
-      button(type="submit") Search
+      button.btn(type="submit") Search
 
   div#project-list
     each project in projects
@@ -26,6 +26,6 @@ block content
             li= tech
         div.image-container
           img(src=project.screenshot, alt=`${project.title} Screenshot`)
-        button.view-btn(href=`/projects/${project.id}`, onclick="event.stopPropagation()") View Details
-        button.edit-btn(href=`/projects/${project.id}/edit`, onclick="event.stopPropagation()") Edit
-        button.delete-btn(href=`/projects/${project.id}/delete`, onclick="event.stopPropagation()") Delete
+        a.view-btn.btn(href=`/projects/${project.id}`) View Details
+        a.edit-btn.btn(href=`/projects/${project.id}/edit`) Edit
+        a.delete-btn.btn(href=`/projects/${project.id}/delete`) Delete

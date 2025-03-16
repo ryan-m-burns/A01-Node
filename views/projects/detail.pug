@@ -14,7 +14,6 @@ block content
       div.project-description
         h2 Description
         p= project.description
-    button.back-btn(href="/projects") &larr; Back to Projects
-    button.edit-btn(href=`/projects/${project.id}/edit`, onclick="event.stopPropagation()") Edit Project
-    button.delete-btn(href=`/projects/${project.id}/delete`, onclick="event.stopPropagation()") Delete Project
-  
+    a.back-btn.btn(href="/projects") &larr; Back to Projects
+    a.edit-btn.btn(href=`/projects/${project.id}/edit`) Edit Project
+    a.delete-btn.btn(href=`/projects/${project.id}/delete`) Delete Project
