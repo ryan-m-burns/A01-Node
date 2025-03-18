@@ -3,7 +3,7 @@ extends ../layouts/main
 block content 
   div.create-project-container
     h1 Create New Project
-    form.create-project-form(method="post", action="/projects/create")
+    form.create-project-form(method="post", action="/projects/create" enctype="multipart/form-data")
       label
         input(type="text" name="title" placeholder="Project Title" required)
       label
@@ -15,7 +15,7 @@ block content
       label
         input(type="text" name="description" placeholder="Project Description" required)
       label
-        input(type="text" name="screenshot" placeholder="Screenshot URL" required)
+        input(type="file" name="screenshot" placeholder="Screenshot URL" required)
       button.create-btn.btn(type="submit") Create Project
     
     if errors

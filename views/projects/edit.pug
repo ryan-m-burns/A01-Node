@@ -3,7 +3,7 @@ extends ../layouts/main
 block content 
   div.edit-project-container
     h1 Edit Project
-    form.edit-project-form(method="post", action=`/projects/${project.id}/edit`)
+    form.edit-project-form(method="post", action=`/projects/${project.id}/edit` enctype="multipart/form-data")
       label
         input(type="text" name="title" placeholder="Project Title" value=project.title required)
       label
@@ -18,7 +18,7 @@ block content
       label
         input(type="text" name="description" placeholder="Project Description" value=project.description required)
       label
-        input(type="text" name="screenshot" placeholder="Screenshot URL" value=project.screenshot required)
+        input(type="file" name="screenshot" placeholder="Screenshot URL" value=project.screenshot required)
       div.actions
         button.update-btn.btn(type="submit") Update Project
         a.cancel-btn.btn(href=`/projects/${project.id}`) Cancel

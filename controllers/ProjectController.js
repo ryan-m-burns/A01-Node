@@ -61,7 +61,12 @@ class ProjectController {
   // POST method to create a new project
   static async CreatePost(req, res) {
     try {
-      const project = await ProjectOps.createProject(req.body);
+      const screenshot = req.file ? req.file.path.replace('public', '') : null;
+
+      const project = await ProjectOps.createProject({
+        ...req.body,
+        screenshot,
+      });
 
       if (req.query.format === 'json') {
         return res.json(project);

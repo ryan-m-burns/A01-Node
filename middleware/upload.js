@@ -1,11 +1,14 @@
 const multer = require('multer');
 
-// Create multer upload instance
-const upload = multer({ dest: 'uploads/' });
-
-app.post('/upload', upload.single('file'), (req, res) => {
-  console.log(req.file);
-  res.send('File uploaded successfully.');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images/uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
 });
+
+const upload = multer({ storage: storage });
 
 module.exports = upload;

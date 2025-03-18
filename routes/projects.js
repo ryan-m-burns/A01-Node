@@ -1,6 +1,7 @@
 const ProjectController = require('../controllers/ProjectController');
 const express = require('express');
 const router = express.Router();
+const upload = require('../middleware/upload');
 
 // Get all projects
 router.get('/', ProjectController.Index);
@@ -10,7 +11,11 @@ router.get('/search', ProjectController.Search);
 
 // Create new project
 router.get('/create', ProjectController.CreateGet);
-router.post('/create', ProjectController.CreatePost);
+router.post(
+  '/create',
+  upload.single('screenshot'),
+  ProjectController.CreatePost
+);
 
 // Edit project
 router.get('/:id/edit', ProjectController.EditGet);
