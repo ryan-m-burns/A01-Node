@@ -154,7 +154,15 @@ class ProjectController {
   // POST method to update a project
   static async EditPost(req, res) {
     try {
-      const project = await ProjectOps.updateProject(req.params.id, req.body);
+      // Handle file upload if present
+      const screenshot = req.file
+        ? req.file.path.replace('public', '')
+        : req.body.screenshot;
+
+      const project = await ProjectOps.updateProject(req.params.id, {
+        ...req.body,
+        screenshot,
+      });
 
       if (req.query.format === 'json') {
         return res.json(project);
