@@ -18,7 +18,7 @@ block content
       label
         input(type="text" name="description" placeholder="Project Description" value=project.description required)
       label
-        input(type="file" name="screenshot" placeholder="Screenshot URL" value=project.screenshot required)
+        input(type="file" name="screenshot" placeholder="Screenshot URL" value=project.screenshot)
       div.actions
         button.update-btn.btn(type="submit") Update Project
         a.cancel-btn.btn(href=`/projects/${project.id}`) Cancel
