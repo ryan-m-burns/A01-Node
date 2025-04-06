@@ -5,32 +5,39 @@ block content
     .profile-header
       h1.profile-title Profile
     
-    if user
+    if reqInfo && reqInfo.authenticated
       .profile-card
         .profile-avatar
           .avatar-circle
-            span.avatar-initials #{user.username.charAt(0).toUpperCase()}
+            span.avatar-initials #{userInfo.username.charAt(0).toUpperCase()}
         
         .profile-info
-          h2.welcome-text Welcome, #{user.username}!
-          if user.email
+          h2.welcome-text Welcome, #{userInfo.username}!
+          if userInfo.email
             .info-item
               span.info-label Email
-              span.info-value #{user.email}
+              span.info-value #{userInfo.email}
           
           h3.section-title Account Details
           .info-list
             .info-item
               span.info-label Username
-              span.info-value #{user.username}
-            if user.firstName && user.lastName
+              span.info-value #{userInfo.username}
+            if userInfo.firstName && userInfo.lastName
               .info-item
                 span.info-label Name
-                span.info-value #{user.firstName} #{user.lastName}
-            if user.createdAt
+                span.info-value #{userInfo.firstName} #{userInfo.lastName}
+            if userInfo.createdAt
               .info-item
                 span.info-label Member since
-                span.info-value #{new Date(user.createdAt).toLocaleDateString()}
+                span.info-value #{new Date(userInfo.createdAt).toLocaleDateString()}
+          
+          if reqInfo.roles && reqInfo.roles.length > 0
+            h3.section-title User Roles
+            .info-list
+              .info-item
+                span.info-label Roles
+                span.info-value #{reqInfo.roles.join(', ')}
         
         .profile-btns
           a.view-btn.btn(href="/") Home
@@ -41,5 +48,3 @@ block content
           i ⚠️
         p.alert-message You are not logged in.
         a.btn.btn-primary(href="/login") Login
-
-//- No inline styles needed as they've been moved to styles.css

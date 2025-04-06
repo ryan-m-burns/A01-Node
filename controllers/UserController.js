@@ -4,6 +4,7 @@ const UserOps = require('../data/userOps');
 const RequestService = require('../services/RequestService');
 
 class UserController {
+  _userOps = new UserOps();
   // Register page
   static async RegisterGet(req, res) {
     // Get authentication data
@@ -141,37 +142,44 @@ class UserController {
   static async Profile(req, res) {
     try {
       // Get authentication data
-      const authData = RequestService.reqHelper(req);
+      const reqInfo = RequestService.reqHelper(req);
 
-      // If user is not authenticated, redirect to login
-      if (!authData.authenticated) {
-        return res.redirect('/login');
+      // If user is not authenticated, redirect to login with error message
+      if (!reqInfo.authenticated) {
+        return res.redirect('/login?errorMessage=You must be logged in to view this page.');
       }
 
-      // Get the full user object from the database
-      const user = await User.findById(req.user._id);
+      // Get user roles and add to session
+      const roles = await UserOps.getRolesByUsername(reqInfo.username);
+      if (req.session) {
+        req.session.roles = roles;
+      }
+      reqInfo.roles = roles;
 
-      if (!user) {
+      // Get the full user object from the database
+      const userInfo = await UserOps.getUserByUsername(reqInfo.username);
+
+      if (!userInfo) {
         return res.status(404).render('error', {
           title: 'User Not Found',
           message: 'User not found in the database.',
-          ...authData,
+          reqInfo,
         });
       }
 
       res.render('profile', {
         title: 'Profile',
-        user,
-        ...authData,
+        reqInfo,
+        userInfo,
       });
     } catch (error) {
       console.error('Profile error:', error);
       // Get authentication data
-      const authData = RequestService.reqHelper(req);
+      const reqInfo = RequestService.reqHelper(req);
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to load profile.',
-        ...authData,
+        reqInfo,
       });
     }
   }

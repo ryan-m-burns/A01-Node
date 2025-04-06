@@ -12,6 +12,12 @@ class UserOps {
     console.log(`Getting user with username ${username}...`);
     return await User.findOne({ username: username });
   }
+
+  static async getRolesByUsername(username) {
+    console.log(`Getting roles for user ${username}...`);
+    const user = await User.findOne({ username: username });
+    return user ? user.roles || [] : [];
+  }
 }
 
 module.exports = UserOps;
