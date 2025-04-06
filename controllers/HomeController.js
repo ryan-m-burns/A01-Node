@@ -1,10 +1,13 @@
 const ProfileOps = require("../data/profileOps");
+const RequestService = require("../services/RequestService");
 
 class HomeController {
     // Home page
     static async Index(req, res) {
         try {
             console.log("Loading home page data...");
+            // Get authentication data
+            const authData = RequestService.reqHelper(req);
 
             if (req.query.format === "json") {
                 return res.json({
@@ -12,7 +15,10 @@ class HomeController {
                 });
             }
 
-            res.render("index", { title: "Home" });
+            res.render("index", { 
+                title: "Home",
+                ...authData
+            });
         } catch (error) {
             console.error("Error in Index method:", error);
             res.status(500).render("error", {
@@ -28,11 +34,14 @@ class HomeController {
             console.log("Loading about page data...");
             // Get the default profile
             const profile = await ProfileOps.getDefaultProfile();
+            // Get authentication data
+            const authData = RequestService.reqHelper(req);
 
             if (!profile) {
                 return res.status(404).render("error", {
                     title: "Profile Not Found",
-                    message: "Profile information could not be found."
+                    message: "Profile information could not be found.",
+                    ...authData
                 });
             }
 
@@ -40,7 +49,11 @@ class HomeController {
                 return res.json(profile);
             }
 
-            res.render("about", { title: "About Me", profile });
+            res.render("about", { 
+                title: "About Me", 
+                profile,
+                ...authData 
+            });
         } catch (error) {
             console.error("Error in About method:", error);
             res.status(500).render("error", {

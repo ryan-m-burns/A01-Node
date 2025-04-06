@@ -86,4 +86,4 @@ process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-module.exports = app; // Export for testing
+module.exports = app;

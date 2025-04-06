@@ -1,4 +1,5 @@
 const ProjectOps = require('../data/projectOps');
+const RequestService = require('../services/RequestService');
 
 class ProjectController {
   // Index method to get all projects
@@ -9,17 +10,25 @@ class ProjectController {
       if (req.query.format === 'json') {
         return res.json(projects);
       }
+      
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
 
       res.render('projects/index', {
         title: 'Projects',
         projects,
         searchQuery: '',
+        ...authData
       });
     } catch (error) {
       console.error('Error in Index method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to retrieve projects.',
+        ...authData
       });
     }
   }
@@ -30,32 +39,49 @@ class ProjectController {
       const project = await ProjectOps.getProjectById(req.params.id);
 
       if (!project) {
+        // Get authentication data
+        const authData = RequestService.reqHelper(req);
+        
         return res.status(404).render('error', {
           title: 'Project Not Found',
           message: 'The requested project does not exist.',
+          ...authData
         });
       }
 
       if (req.query.format === 'json') {
         return res.json(project);
       }
+      
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
 
       res.render('projects/detail', {
         title: project.title,
         project,
+        ...authData
       });
     } catch (error) {
       console.error('Error in Detail method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to retrieve project details.',
+        ...authData
       });
     }
   }
 
   // GET method to display the create form
   static async CreateGet(req, res) {
-    res.render('projects/create', { title: 'Create Project' });
+    // Get authentication data
+    const authData = RequestService.reqHelper(req);
+    res.render('projects/create', { 
+      title: 'Create Project',
+      ...authData 
+    });
   }
 
   // POST method to create a new project
@@ -75,9 +101,13 @@ class ProjectController {
       res.redirect('/projects');
     } catch (error) {
       console.error('Error in Create method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to create project.',
+        ...authData
       });
     }
   }
@@ -88,21 +118,33 @@ class ProjectController {
       const project = await ProjectOps.getProjectById(req.params.id);
 
       if (!project) {
+        // Get authentication data
+        const authData = RequestService.reqHelper(req);
+        
         return res.status(404).render('error', {
           title: 'Project Not Found',
           message: 'The requested project does not exist.',
+          ...authData
         });
       }
 
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.render('projects/delete', {
         title: 'Delete Project',
         project,
+        ...authData
       });
     } catch (error) {
       console.error('Error in DeleteGet method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to retrieve project for deletion.',
+        ...authData
       });
     }
   }
@@ -119,9 +161,13 @@ class ProjectController {
       res.redirect('/projects');
     } catch (error) {
       console.error('Error in Delete method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to delete project.',
+        ...authData
       });
     }
   }
@@ -132,21 +178,33 @@ class ProjectController {
       const project = await ProjectOps.getProjectById(req.params.id);
 
       if (!project) {
+        // Get authentication data
+        const authData = RequestService.reqHelper(req);
+        
         return res.status(404).render('error', {
           title: 'Project Not Found',
           message: 'The requested project does not exist.',
+          ...authData
         });
       }
 
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.render('projects/edit', {
         title: 'Edit Project',
         project,
+        ...authData
       });
     } catch (error) {
       console.error('Error in EditGet method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to retrieve project for editing.',
+        ...authData
       });
     }
   }
@@ -174,9 +232,13 @@ class ProjectController {
       res.redirect(`/projects/${req.params.id}`);
     } catch (error) {
       console.error('Error in EditPost method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to update project.',
+        ...authData
       });
     }
   }
@@ -199,16 +261,24 @@ class ProjectController {
         });
       }
 
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.render('projects/index', {
         title: `Search Results for "${query}"`,
         projects: results,
         searchQuery: query,
+        ...authData
       });
     } catch (error) {
       console.error('Error in Search method:', error);
+      // Get authentication data
+      const authData = RequestService.reqHelper(req);
+      
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to search projects.',
+        ...authData
       });
     }
   }
