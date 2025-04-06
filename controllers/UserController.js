@@ -8,15 +8,15 @@ class UserController {
   static async RegisterGet(req, res) {
     // Get authentication data
     const authData = RequestService.reqHelper(req);
-    
+
     // If user is already authenticated, redirect to profile
     if (authData.authenticated) {
       return res.redirect('/profile');
     }
-    
-    res.render('register', { 
+
+    res.render('register', {
       title: 'Register',
-      ...authData
+      ...authData,
     });
   }
 
@@ -24,7 +24,7 @@ class UserController {
   static async RegisterPost(req, res) {
     try {
       const { username, email, password } = req.body;
-      
+
       // Check if user already exists
       const existingUser = await UserOps.getUserByUsername(username);
       if (existingUser) {
@@ -33,10 +33,10 @@ class UserController {
         return res.render('register', {
           title: 'Register',
           error: 'Username already exists',
-          ...authData
+          ...authData,
         });
       }
-      
+
       // Check if email already exists
       const existingEmail = await UserOps.getUserByEmail(email);
       if (existingEmail) {
@@ -45,16 +45,16 @@ class UserController {
         return res.render('register', {
           title: 'Register',
           error: 'Email already exists',
-          ...authData
+          ...authData,
         });
       }
-      
+
       // Create new user
       const user = new User({ username, email });
       await User.register(user, password);
-      
+
       console.log(`User registered: ${username}`);
-      
+
       // Authenticate the user after registration
       req.login(user, (err) => {
         if (err) {
@@ -67,10 +67,10 @@ class UserController {
       console.error('Registration error:', error);
       // Get authentication data
       const authData = RequestService.reqHelper(req);
-      res.render('register', { 
-        title: 'Register', 
+      res.render('register', {
+        title: 'Register',
         error: error.message || 'Registration failed',
-        ...authData
+        ...authData,
       });
     }
   }
@@ -79,36 +79,36 @@ class UserController {
   static async LoginGet(req, res) {
     // Get authentication data
     const authData = RequestService.reqHelper(req);
-    
+
     // If user is already authenticated, redirect to profile
     if (authData.authenticated) {
       return res.redirect('/profile');
     }
-    
-    res.render('login', { 
+
+    res.render('login', {
       title: 'Login',
-      ...authData
+      ...authData,
     });
   }
 
   // Login handler
   static async LoginPost(req, res, next) {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', (err, user) => {
       if (err) {
         console.error('Login error:', err);
         return next(err);
       }
-      
+
       if (!user) {
         // Get authentication data
         const authData = RequestService.reqHelper(req);
         return res.render('login', {
           title: 'Login',
-          error: 'Invalid username or password',
-          ...authData
+          error: 'Invalid Credentials',
+          ...authData,
         });
       }
-      
+
       req.login(user, (err) => {
         if (err) {
           console.error('Login error:', err);
@@ -142,27 +142,27 @@ class UserController {
     try {
       // Get authentication data
       const authData = RequestService.reqHelper(req);
-      
+
       // If user is not authenticated, redirect to login
       if (!authData.authenticated) {
         return res.redirect('/login');
       }
-      
+
       // Get the full user object from the database
       const user = await User.findById(req.user._id);
-      
+
       if (!user) {
         return res.status(404).render('error', {
           title: 'User Not Found',
           message: 'User not found in the database.',
-          ...authData
+          ...authData,
         });
       }
-      
+
       res.render('profile', {
         title: 'Profile',
         user,
-        ...authData
+        ...authData,
       });
     } catch (error) {
       console.error('Profile error:', error);
@@ -171,7 +171,7 @@ class UserController {
       res.status(500).render('error', {
         title: 'Error',
         message: 'Failed to load profile.',
-        ...authData
+        ...authData,
       });
     }
   }
