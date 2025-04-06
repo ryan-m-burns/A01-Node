@@ -23,6 +23,31 @@ app.use(express.static(config.staticDir));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session configuration
+const session = require('express-session');
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  })
+);
+
+// Initialize Passport and restore authentication state from session
+const passport = require('./config/passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Make user available in templates
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 // Custom logging middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
