@@ -1,25 +1,45 @@
 extends layouts/main
 
 block content
-  h1 Profile
-  if user
-    div.profile-container
-      h2 Welcome, #{user.username}!
-      if user.email
-        p Email: #{user.email}
-      
-      h3 Account Details
-      ul.list-group
-        li.list-group-item Username: #{user.username}
-        if user.firstName && user.lastName
-          li.list-group-item Name: #{user.firstName} #{user.lastName}
-        if user.createdAt
-          li.list-group-item Member since: #{new Date(user.createdAt).toLocaleDateString()}
-      
-      div.mt-4
-        a.btn.btn-primary(href="/") Home
-        a.btn.btn-danger.ml-2(href="/logout") Logout
-  else
-    div.alert.alert-warning
-      p You are not logged in.
-      a.btn.btn-primary(href="/login") Login
+  .profile-page
+    .profile-header
+      h1.profile-title Profile
+    
+    if user
+      .profile-card
+        .profile-avatar
+          .avatar-circle
+            span.avatar-initials #{user.username.charAt(0).toUpperCase()}
+        
+        .profile-info
+          h2.welcome-text Welcome, #{user.username}!
+          if user.email
+            .info-item
+              span.info-label Email
+              span.info-value #{user.email}
+          
+          h3.section-title Account Details
+          .info-list
+            .info-item
+              span.info-label Username
+              span.info-value #{user.username}
+            if user.firstName && user.lastName
+              .info-item
+                span.info-label Name
+                span.info-value #{user.firstName} #{user.lastName}
+            if user.createdAt
+              .info-item
+                span.info-label Member since
+                span.info-value #{new Date(user.createdAt).toLocaleDateString()}
+        
+        .profile-btns
+          a.view-btn.btn(href="/") Home
+          a.delete-btn.btn(href="/logout") Logout
+    else
+      .not-logged-in
+        .alert-icon
+          i ⚠️
+        p.alert-message You are not logged in.
+        a.btn.btn-primary(href="/login") Login
+
+//- No inline styles needed as they've been moved to styles.css
