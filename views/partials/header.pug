@@ -5,3 +5,9 @@ header
     a(href="/about") About
     a(href="/projects") Projects
     a(href="/contact") Contact
+    if user
+      a(href="/profile") Profile
+      a(href="/logout") Logout
+    else
+      a(href="/login") Login
+      a(href="/register") Register

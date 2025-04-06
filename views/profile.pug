@@ -1,0 +1,25 @@
+extends layouts/main
+
+block content
+  h1 Profile
+  if user
+    div.profile-container
+      h2 Welcome, #{user.username}!
+      if user.email
+        p Email: #{user.email}
+      
+      h3 Account Details
+      ul.list-group
+        li.list-group-item Username: #{user.username}
+        if user.firstName && user.lastName
+          li.list-group-item Name: #{user.firstName} #{user.lastName}
+        if user.createdAt
+          li.list-group-item Member since: #{new Date(user.createdAt).toLocaleDateString()}
+      
+      div.mt-4
+        a.btn.btn-primary(href="/") Home
+        a.btn.btn-danger.ml-2(href="/logout") Logout
+  else
+    div.alert.alert-warning
+      p You are not logged in.
+      a.btn.btn-primary(href="/login") Login

@@ -1,0 +1,16 @@
+extends layouts/main
+
+block content
+  h1 Login
+  if error
+    p.error= error
+  form(action="/login" method="POST")
+    div.form-group
+      label(for="username") Username:
+      input.form-control(type="text" id="username" name="username" required)
+    div.form-group
+      label(for="password") Password:
+      input.form-control(type="password" id="password" name="password" required)
+    button.btn.btn-primary(type="submit") Login
+  p Don't have an account? 
+    a(href="/register") Register here
