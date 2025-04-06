@@ -23,7 +23,7 @@ block content
           div.current-screenshot
             h3 Current Screenshot
             img(src=project.screenshot alt=`${project.title} screenshot` style="max-width: 300px; margin-bottom: 15px;")
-            input(type="hidden" name="screenshot" value=project.screenshot)
+            input(type="hidden" name="existing_screenshot" value=project.screenshot)
         
         label New Screenshot (optional)
           input(type="file" name="screenshot" placeholder="Screenshot URL")

@@ -19,7 +19,11 @@ router.post(
 
 // Edit project
 router.get('/:id/edit', ProjectController.EditGet);
-router.post('/:id/edit', ProjectController.EditPost);
+router.post(
+  '/:id/edit',
+  upload.single('screenshot'),
+  ProjectController.EditPost
+);
 
 // Delete project
 router.get('/:id/delete', ProjectController.DeleteGet);

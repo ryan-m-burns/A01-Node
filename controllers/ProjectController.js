@@ -157,10 +157,13 @@ class ProjectController {
       // Handle file upload if present
       const screenshot = req.file
         ? req.file.path.replace('public', '')
-        : req.body.screenshot;
+        : req.body.existing_screenshot;
+
+      // Create updated project data with all fields except existing_screenshot
+      const { existing_screenshot, ...projectData } = req.body;
 
       const project = await ProjectOps.updateProject(req.params.id, {
-        ...req.body,
+        ...projectData,
         screenshot,
       });
 
