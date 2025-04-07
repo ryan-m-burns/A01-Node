@@ -3,7 +3,8 @@ extends ../layouts/main
 block content
   h1= title
 
-  a.create-btn.btn(href="/projects/create") Add New Project
+  if roles && roles.includes('admin')
+    a.create-btn.btn(href="/projects/create") Add New Project
 
   if searchQuery
     a.back-btn.btn(href="/projects") &larr; Back to Projects
@@ -33,5 +34,6 @@ block content
             img(src=project.screenshot, alt=`${project.title} Screenshot`)
         div.profile-btns
           a.view-btn.btn(href=`/projects/${project.id}`) View Details
-          a.edit-btn.btn(href=`/projects/${project.id}/edit`) Edit
-          a.delete-btn.btn(href=`/projects/${project.id}/delete`) Delete
+          if roles && roles.includes('admin')
+            a.edit-btn.btn(href=`/projects/${project.id}/edit`) Edit
+            a.delete-btn.btn(href=`/projects/${project.id}/delete`) Delete

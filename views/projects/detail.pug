@@ -16,5 +16,6 @@ block content
         h2 Description
         p= project.description
     a.back-btn.btn(href="/projects") &larr; Back to Projects
-    a.edit-btn.btn(href=`/projects/${project.id}/edit`) Edit Project
-    a.delete-btn.btn(href=`/projects/${project.id}/delete`) Delete Project
+    if roles && roles.includes('admin')
+      a.edit-btn.btn(href=`/projects/${project.id}/edit`) Edit Project
+      a.delete-btn.btn(href=`/projects/${project.id}/delete`) Delete Project
