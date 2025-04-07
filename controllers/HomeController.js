@@ -1,4 +1,5 @@
 const ProfileOps = require("../data/profileOps");
+const ContactOps = require("../data/contactOps");
 const RequestService = require("../services/RequestService");
 
 class HomeController {
@@ -69,11 +70,14 @@ class HomeController {
             console.log("Loading contact page data...");
             // Get the default profile
             const profile = await ProfileOps.getDefaultProfile();
+            // Get authentication data
+            const authData = RequestService.reqHelper(req);
 
             if (!profile) {
                 return res.status(404).render("error", {
                     title: "Profile Not Found",
-                    message: "Contact information could not be found."
+                    message: "Contact information could not be found.",
+                    ...authData
                 });
             }
 
@@ -84,12 +88,20 @@ class HomeController {
                 });
             }
 
-            res.render("contact", { title: "Contact Me", profile });
+            res.render("contact", { 
+                title: "Contact Me", 
+                profile,
+                ...authData 
+            });
         } catch (error) {
             console.error("Error in Contact method:", error);
+            // Get authentication data
+            const authData = RequestService.reqHelper(req);
+            
             res.status(500).render("error", {
                 title: "Error",
                 message: "Failed to load contact page.",
+                ...authData
             });
         }
     }
@@ -99,12 +111,42 @@ class HomeController {
         try {
             console.log("Contact Form Submission:", req.body);
             
-            res.render("thank-you", { title: "Thank You" });
+            // Get authentication data
+            const authData = RequestService.reqHelper(req);
+            
+            // Validate required fields
+            const { name, email, subject, message } = req.body;
+            if (!name || !email || !subject || !message) {
+                return res.status(400).render("contact", {
+                    title: "Contact Me",
+                    error: "All fields are required",
+                    formData: req.body,
+                    ...authData
+                });
+            }
+            
+            // Save contact submission to database
+            await ContactOps.createContact({
+                name,
+                email,
+                subject,
+                message
+            });
+            
+            // Render thank you page
+            res.render("thank-you", { 
+                title: "Thank You",
+                ...authData 
+            });
         } catch (error) {
             console.error("Error in SubmitContact method:", error);
+            // Get authentication data
+            const authData = RequestService.reqHelper(req);
+            
             res.status(500).render("error", {
                 title: "Error",
                 message: "Failed to process contact form.",
+                ...authData
             });
         }
     }
